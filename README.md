@@ -1,176 +1,180 @@
-# nlp_final_project
+AI Caption Generator Project
+Authors
 
----
+Laiba Muneer (st125496@ait.asia)
+Lakshika P. M. M. (st124872@ait.asia)
+Aakash Kuragayala (st125050@ait.asia)Affiliation: Department of Information and Communication Technology, School of Engineering and Technology, Asian Institute of Technology
 
-# AI-Powered Social Media Content Generator
+Overview
+This project develops an AI-powered caption generator for social media posts, focusing on generating trendy, Gen Z-style captions for categories such as events, places, products, and experiences. Initially, the project attempted to scrape captions from online sources, but due to challenges with web scraping, the dataset was ultimately generated synthetically using multiple AI models, including GPT, Copilot, Claude, Gemini, Grok, DeepSeek, and others. The captions were then preprocessed, analyzed, and used to fine-tune a language model with Retrieval-Augmented Generation (RAG). The final application offers an interactive chatbot and a Streamlit-based web interface for generating captions.
+The project evolved through several stages: from web scraping attempts to synthetic data generation, exploratory data analysis (EDA), model fine-tuning, and deployment as an interactive application.
 
-**A Data-Driven Approach for Maximizing Engagement**
+Project Journey
+Initial Approach: Web Scraping
+What I Tried First:
 
-**Authors**:  
-- Laiba Muneer (st125496@ait.asia)  
-- Lakshika P. M. M. (st124872@ait.asia)  
-- Aakash Kuragayala (st125050@ait.asia)  
-**Affiliation**: Department of Information and Communication Technology, School of Engineering and Technology, Asian Institute of Technology
+The initial goal was to collect a large dataset of promotional captions to train a caption generation model.
+I attempted to scrape websites like latestly.com, ndtv.com, timesofindia.indiatimes.com, and others for categories such as places, events, products, marketing, entertainment, and lifestyle.
+I used BeautifulSoup to scrape captions from headings and paragraphs that matched promotional keywords (e.g., "visit", "join", "celebrate").
+I also tried scraping Instagram (InstagramScrapper class) and Twitter (TwitterScrapper class) using Selenium to handle dynamic content.
+Additionally, I explored the VQA v2.0 dataset (vqa_text_data.csv) to repurpose question-answer pairs as captions.
 
----
+Challenges:
 
-## Overview
-Social media is a cornerstone of digital marketing, yet content creation remains time-consuming, inconsistent, and hard to scale with traditional methods. The **AI-Powered Social Media Content Generator** addresses these challenges by leveraging **Large Language Models (LLMs)**, **Retrieval-Augmented Generation (RAG)**, and **AI-driven analytics** to automate the generation of high-quality, platform-specific, and audience-optimized content. This system integrates real-time trend analysis, engagement prediction, and content personalization to maximize reach and interaction on platforms like Instagram, Twitter, and TikTok.
+Many websites required JavaScript rendering, which BeautifulSoup couldn’t handle effectively.
+Anti-scraping measures blocked requests, leading to incomplete data collection.
+Scraping Instagram and Twitter was slow, and the data was noisy with duplicates and irrelevant content.
+The VQA dataset, while useful, wasn’t directly aligned with social media caption styles.
+Overall, web scraping couldn’t provide the volume or quality of data needed for the project.
 
-This project aims to revolutionize digital marketing by reducing manual effort, enhancing content relevance, and optimizing engagement through AI automation.
+What I Did:
 
----
+Recognizing the limitations of web scraping, I pivoted to synthetic data generation using multiple AI models to create a high-quality, diverse dataset of captions.
+I used models like GPT, Copilot, Claude, Gemini, Grok, and DeepSeek to generate captions for categories like events, places, products, and experiences.
+Prompts were designed to encourage trendy, Gen Z-style captions (e.g., "Generate a trendy social media caption for a new tech product launch").
+The generated captions were collected into captions.txt and converted to captions.csv for further processing.
 
-## Problem Statement
-- **Time-Intensive Creation**: Manual content ideation and refinement struggle to keep up with social media’s pace.
-- **Inconsistent Engagement**: Rapidly shifting trends and preferences make engagement unpredictable without data-driven insights.
-- **Platform Complexity**: Each platform has unique formats and algorithms, complicating manual optimization.
-- **Scalability**: High-quality content production at scale is unsustainable without automation.
+Data Generation with AI Models
+How I Generated the Data:
 
----
+I leveraged multiple AI models to generate captions:
+GPT: Used for general-purpose caption generation with prompts tailored to different categories.
+Copilot: Assisted in generating creative and code-related captions.
+Claude: Provided conversational and engaging captions with a focus on storytelling.
+Gemini: Generated captions despite rate limits (60/minute), focusing on promotional styles.
+Grok: Created humorous and unique captions with a fresh perspective.
+DeepSeek: Focused on concise and trendy captions suitable for social media.
 
-## Motivation
-The rapid evolution of digital marketing demands scalable, data-driven solutions. This project harnesses AI to:
-- Automate content generation and optimization.
-- Boost engagement through predictive analytics and trend adaptation.
-- Empower businesses, influencers, and marketers with efficient, impactful social media strategies.
 
----
+Each model was prompted with category-specific instructions to ensure diversity (e.g., "Generate a Gen Z-style caption for a music festival event").
+The generated captions were filtered for length (≤280 characters) and relevance (e.g., containing keywords like "join", "explore", "celebrate").
+I also added 20-25 unique hashtags per category to make the captions social media-ready (e.g., #WanderlustWavy for places).
 
-## System Architecture
-The system is modular, integrating:
-1. **Content Input & Trend Analysis**: Processes user inputs and fetches real-time trends (e.g., via X API).
-2. **AI-Powered Content Generation**: Uses LLMs to create platform-tailored posts.
-3. **Engagement Prediction**: Forecasts likes, shares, and comments using historical data.
-4. **Optimization & Personalization**: Refines content based on audience demographics and platform metrics.
-5. **User Interface**: Intuitive UI for content creation and performance tracking.
+Outcome:
 
----
+This approach resulted in a robust dataset of captions (captions.csv) that was more diverse, trendy, and aligned with social media needs compared to scraped data.
+The dataset was free from the noise and inconsistencies of web scraping, though it required careful curation to avoid model-specific biases.
 
-## Technology Stack
-| **Component**             | **Tools & Frameworks**         |
-|---------------------------|---------------------------------|
-| LLM Framework            | OpenAI GPT, Groq, LangChain    |
-| Retrieval Mechanism      | FAISS, ChromaDB, Pinecone      |
-| Engagement Prediction    | TensorFlow, PyTorch            |
-| SEO & Social Media Tools | Yoast SEO, Socialbakers API    |
-| UI & Deployment          | Streamlit, FastAPI, AWS        |
+Data Analysis and Preprocessing
+What I Tried:
 
----
+I performed EDA on the generated captions (captions.csv) to understand their characteristics.
+Visualizations included bar charts for category distribution, histograms for character/word length, and word clouds for common words.
+I used NLTK for tokenization and stopword removal to analyze word frequencies.
 
-## Methodology
-1. **Data Processing**: Preprocesses user inputs and retrieves real-time trends using RAG.
-2. **Content Generation**: Employs LLMs with Chain-of-Thought (CoT) prompting for coherent text.
-3. **Optimization**: Enhances readability (e.g., Flesch-Kincaid) and SEO (e.g., keyword density).
-4. **Model Training**: Fine-tunes LLMs and RAG models, optimizing hyperparameters for engagement.
+Challenges:
 
----
+Some generated captions were repetitive due to model biases (e.g., overusing certain phrases).
+Balancing the dataset across categories required manual curation.
+Ensuring the captions maintained a Gen Z vibe across all models was challenging.
 
-## Datasets
-| **Dataset**            | **Description**                          | **Purpose**                     |
-|-----------------------|------------------------------------------|---------------------------------|
-| Social Media Post     | 60 multilingual posts on trending topics | Multilingual text generation   |
-| SynthFluencers        | Synthetic influencer profiles            | Personalization & influencer modeling |
-| Flickr30k             | 30K images with captions                | Image-captioning for visual platforms |
-| VQA                   | Images with question-answer pairs       | Context-aware visual content   |
+What I Did:
 
-**Preprocessing**: Text cleaning, tokenization, embedding generation (GPT/BERT), and multimodal feature extraction.
+I removed duplicates and filtered out irrelevant captions during preprocessing.
+I added features like word count, character length, and hashtag presence to the dataset.
+I categorized captions into types (e.g., lifestyle, places, events) and ensured each caption had trendy hashtags.
+The cleaned dataset was saved as cleaned_promotional_captions.csv.
 
----
+Model Training and Fine-Tuning
+What I Tried:
 
-## Installation
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/ai-social-media-generator.git
-   cd ai-social-media-generator
-   ```
+I fine-tuned a distilgpt2 model on the generated captions (captions.txt) to create a caption generator.
+I integrated Retrieval-Augmented Generation (RAG) using sentence-transformers and faiss to retrieve relevant context for generation.
+I used the Hugging Face transformers library for training and generation.
 
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-   Example `requirements.txt`:
-   ```
-   tweepy
-   transformers
-   torch
-   tensorflow
-   streamlit
-   fastapi
-   faiss-cpu
-   pinecone-client
-   langchain
-   ```
+Challenges:
 
-3. **Set Up API Keys**:
-   - X API: Add your Bearer Token to `config.py` (e.g., `BEARER_TOKEN = "your_token"`).
-   - Other APIs (e.g., Socialbakers): Configure as needed.
+Initial fine-tuning produced generic captions that lacked the trendy, Gen Z vibe.
+RAG integration required careful tuning to ensure retrieved captions were relevant.
+Training logs were not always accessible, making performance analysis difficult.
 
-4. **Run the Application**:
-   ```bash
-   streamlit run app.py
-   ```
+What I Did:
 
----
+I fine-tuned the distilgpt2 model in two stages: first for 10 epochs (caption_model_trained/model.pth) and then for 2 additional epochs (caption_model_finetuned/model.pth) with a lower learning rate to improve caption quality.
+I used RAG with FAISS to retrieve relevant captions as context, enhancing the relevance of generated captions.
+I incorporated Chain-of-Thought (CoT) prompting to guide the model in generating trendy captions with hashtags.
+I analyzed training metrics (e.g., loss decrease) by parsing logs when available.
 
-## Usage
-1. **Input**: Specify post type, tone, keywords, and platform via the Streamlit UI.
-2. **Generate**: AI creates optimized content based on trends and predictions.
-3. **Review**: Evaluate engagement forecasts and refine output.
-4. **Deploy**: Export posts or integrate with scheduling tools via FastAPI.
+Final Implementation: Interactive Chatbot and Streamlit UI
+What I Ended Up Doing:
 
----
+I built an interactive chatbot that takes user prompts (e.g., "I had a Thailand trip I enjoyed a lot") and generates Gen Z-style captions using the fine-tuned distilgpt2 model with RAG and CoT.
+I developed a Streamlit-based web interface (st.title("AI Caption Generator")) for users to input prompts and generate captions with a modern UI.
+The final application uses the fine-tuned model (./fine_tuned_caption_model/model.pth), retrieves context with FAISS, and adds trendy hashtags.
+I saved all project files in a ZIP (colab_all_files.zip) for easy sharing.
 
-## Evaluation Metrics
-- **BLEU Score**: Text fluency and coherence.
-- **Engagement Accuracy**: Predicted vs. actual interaction metrics.
-- **SEO Ranking**: Visibility and hashtag performance.
-- **Readability Score**: Audience-tailored content quality.
 
----
+Project Structure
 
-## Expected Outcomes
-- **Higher Engagement**: Optimized posts aligned with trends and algorithms.
-- **Reduced Effort**: Automation of ideation and refinement.
-- **Improved Visibility**: Enhanced SEO and platform ranking.
+captions.txt: Synthetically generated captions from multiple AI models.
+captions.csv: Converted captions in CSV format.
+cleaned_promotional_captions.csv: Cleaned captions with hashtags.
+train_captions.txt: Training file for fine-tuning the model.
+fine_tuned_caption_model/model.pth: Fine-tuned DistilGPT-2 model weights.
+logs/, logs_finetune/: Training logs (if available).
+category_distribution.png, text_length_distribution.png, word_cloud.png: EDA visualizations.
 
----
 
-## Deployment
-- **Web UI**: Streamlit for interactive use.
-- **API**: FastAPI for integration with external tools.
-- **Cloud**: AWS for scalability and real-time monitoring.
+Requirements
+To run this project, install the following dependencies:
+pip install pandas torch transformers sentence-transformers faiss-cpu langchain langchain-huggingface
+pip install streamlit matplotlib seaborn wordcloud nltk
 
----
+Additionally:
 
-## Future Work
-- Sentiment-based refinement.
-- Multimodal integration for video content.
-- Continuous learning for evolving trends.
+Download NLTK data: nltk.download('punkt') and nltk.download('stopwords').
 
----
 
-## Contributing
-Contributions are welcome! Please fork the repo, create a branch, and submit a pull request.
+How to Run
+1. Prepare Data
+The captions dataset (captions.txt) is already generated using multiple AI models. If you need to generate more captions, you can use the respective APIs of GPT, Claude, Gemini, Grok, DeepSeek, etc., with appropriate prompts.
+2. Preprocess and Analyze Data
+Run the preprocessing and EDA script to clean and analyze the captions:
+python <preprocessing_script>.py
 
----
 
-## License
-This project is licensed under the MIT License. See `LICENSE` for details.
+This will clean the data, add hashtags, and generate visualizations (category_distribution.png, word_cloud.png).
 
----
+3. Fine-Tune the Model
+Run the fine-tuning script to train the distilgpt2 model:
+python <fine_tune_script>.py
 
-## Contact
-For questions, reach out to:
-- Laiba Muneer: st125496@ait.asia
-- Lakshika P. M. M.: st124872@ait.asia
-- Aakash Kuragayala: st125050@ait.asia
 
----
+This will save the fine-tuned model to ./fine_tuned_caption_model/model.pth.
 
-### Notes
-- **GreenLens Tie-In**: If you want to merge this with GreenLens (eco-footprint focus), I can adjust it to highlight sustainability content generation—let me know!
-- **Customization**: Replace `yourusername` in the git clone URL with your GitHub username.
-- **Dependencies**: The `requirements.txt` is a sample—add specific versions or additional libraries (e.g., `chromadb`) as you finalize your stack.
+4. Run the Interactive Chatbot
+Run the chatbot script to generate captions interactively:
+python <chatbot_script>.py
 
-Let me know if you’d like tweaks (e.g., adding a demo GIF, linking references, or aligning with GreenLens)!
+
+Enter prompts like "I had a Thailand trip I enjoyed a lot" to generate captions.
+
+5. Run the Streamlit Web App
+Run the Streamlit app for a web-based interface:
+streamlit run <streamlit_script>.py
+
+
+Open the provided URL in your browser, enter a prompt, and generate captions.
+
+
+Example Usage
+Chatbot
+Prompt: I had a Thailand trip I enjoyed a lot
+Generated Caption: Thailand trip hittin’ different! 🌴 Vibes on fleek #WanderlustWavy #LitLocations
+
+Streamlit App
+
+Input: "Launching a new tech product 🚀"
+Output: "Tech game strong with this launch! 🚀 Cop it now #CopThis #TechSzn"
+
+
+Future Improvements
+
+Dynamic Trends: Integrate a real-time trends API (e.g., Twitter Trends) to add up-to-date hashtags.
+Improved RAG: Use a larger and more diverse context dataset for better retrieval.
+Multimodal Support: Incorporate image inputs to generate captions based on images.
+Deployment: Host the Streamlit app on a cloud platform for public access.
+
+
+License
+This project is licensed under the MIT License. Feel free to use and modify it as needed.
